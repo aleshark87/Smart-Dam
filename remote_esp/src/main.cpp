@@ -4,31 +4,23 @@
 /* ESP8266 libraries */
 //#include <ESP8266HTTPClient.h>
 //#include <ESP8266WiFi.h>
+#include <Sonar.h>
+#define NORMAL 0
+#define PREALARM 1
+#define ALARM 2
+#define TRIGGER_PIN 4
+#define ECHO_PIN 5
 
 /* wifi network name */
-char* ssidName = "Your SSID";
+char* ssidName = "FASTWEB-B482E1";
 /* WPA2 PSK password */
-char* pwd = "YourPassword";
+char* pwd = "***REMOVED***";
 /* service IP address */ 
 char* address = "http://164c5a96b01f.ngrok.io(ngrok link)";
 
-const int trigPin = 4; 
-const int echoPin = 5;
-float duration,distance;
+volatile int state;
+Sonar *sonar;
 
-void setup() { 
-  pinMode(trigPin, OUTPUT); 
-  pinMode(echoPin, INPUT);  
-  Serial.begin(9600);                            
-  WiFi.begin(ssidName, pwd);
-  Serial.print("Connecting...");
-  WiFi.status();
-  while (WiFi.status() != WL_CONNECTED) {  
-    //delay(500);
-    //Serial.print(".");
-  } 
-  Serial.println("Connected");
-}
 
 int sendData(String address, float value, String place){  
    HTTPClient http;    
@@ -44,34 +36,53 @@ int sendData(String address, float value, String place){
     //Serial.println(payload);      
    return retCode;
 }
+
+void setup() { 
+  pinMode(TRIGGER_PIN, OUTPUT); 
+  pinMode(ECHO_PIN, INPUT);  
+  Serial.begin(9600);                            
+  WiFi.begin(ssidName, pwd);
+  Serial.print("Connecting...");
+  WiFi.status();
+  while (WiFi.status() != WL_CONNECTED) {  
+  } 
+  Serial.println("Connected");
+  //fa fatta prima lettura del dato del sonar per inizializzare state
+  state = NORMAL;
+  sonar = new Sonar(TRIGGER_PIN, ECHO_PIN);
+}
    
 void loop() { 
- digitalWrite(trigPin, LOW); 
- delayMicroseconds(2); 
- digitalWrite(trigPin, HIGH); 
- delayMicroseconds(10); 
- digitalWrite(trigPin, LOW); 
- duration = pulseIn(echoPin, HIGH); 
- distance = (duration*.0343)/2; 
  if (WiFi.status()== WL_CONNECTED){   
+	switch(state){
+		case NORMAL:
+			Serial.println("Stato normale");
+			delay(500);
+			state = PREALARM;
+			break;
+		case PREALARM:
+			Serial.println("Stato preallarme");
+			Serial.println(sonar->getValue());
+			delay(1000);
+			state = ALARM;
+			break;
+		case ALARM:
+			Serial.println("Stato allarme");
+			delay(2000);
+			state = NORMAL;
+			break;
+	}
+   /*Serial.print("sending "+String(distance)+"...");    
+   int code = sendData(address, value, "home");*/
 
-   // read sensor 
-   float value = 100;
-   
-   // send data 
-   Serial.print("sending "+String(distance)+"...");    
-   int code = sendData(address, value, "home");
-
-   // log result 
-   if (code == 200){
+   // result check 
+   /*if (code == 200){
      Serial.println("ok");   
    } else {
      Serial.println("error");
-   }
+   }*/
  } else { 
    Serial.println("Error in WiFi connection");   
  }
- 
- delay(5);  
  
 }
