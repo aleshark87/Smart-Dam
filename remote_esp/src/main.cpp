@@ -1,3 +1,10 @@
+#define NORMAL 0
+#define PREALARM 1
+#define ALARM 2
+#define TRIGGER 4
+#define ECHO 5
+#define D1 100
+#define D2 40
 /* ESP32 libraries */
 #include <HTTPClient.h>
 #include <WiFi.h>
@@ -5,11 +12,7 @@
 //#include <ESP8266HTTPClient.h>
 //#include <ESP8266WiFi.h>
 #include <Sonar.h>
-#define NORMAL 0
-#define PREALARM 1
-#define ALARM 2
-#define TRIGGER_PIN 4
-#define ECHO_PIN 5
+
 
 /* wifi network name */
 char* ssidName = "FASTWEB-B482E1";
@@ -38,8 +41,8 @@ int sendData(String address, float value, String place){
 }
 
 void setup() { 
-  pinMode(TRIGGER_PIN, OUTPUT); 
-  pinMode(ECHO_PIN, INPUT);  
+  pinMode(TRIGGER, OUTPUT); 
+  pinMode(ECHO, INPUT);  
   Serial.begin(9600);                            
   WiFi.begin(ssidName, pwd);
   Serial.print("Connecting...");
@@ -49,28 +52,45 @@ void setup() {
   Serial.println("Connected");
   //fa fatta prima lettura del dato del sonar per inizializzare state
   state = NORMAL;
-  sonar = new Sonar(TRIGGER_PIN, ECHO_PIN);
+  sonar = new Sonar(TRIGGER, ECHO);
 }
    
 void loop() { 
  if (WiFi.status()== WL_CONNECTED){   
 	switch(state){
 		case NORMAL:
-			Serial.println("Stato normale");
-			delay(500);
-			state = PREALARM;
-			break;
+    {
+        Serial.println("Stato normale");
+        //Led->turnOff();
+        delay(500);
+        const float distance = sonar->getValue();
+        if(distance < D1 && distance > D2){
+          state = PREALARM;
+        }
+        else{
+          if(distance <= D2){
+            state = ALARM;
+          }
+        }
+        break;
+    }
 		case PREALARM:
+    {
 			Serial.println("Stato preallarme");
-			Serial.println(sonar->getValue());
-			delay(1000);
+      //Led->Pulse
+			delay(2000);
 			state = ALARM;
 			break;
+    }
 		case ALARM:
+    {
 			Serial.println("Stato allarme");
-			delay(2000);
+      //Led->TurnOn()
+      Serial.println(sonar->getValue());
+			delay(4000);
 			state = NORMAL;
 			break;
+    }
 	}
    /*Serial.print("sending "+String(distance)+"...");    
    int code = sendData(address, value, "home");*/

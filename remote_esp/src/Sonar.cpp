@@ -19,11 +19,12 @@ void Sonar::readValue(){
     /* impulse receive */
     float tUS = pulseIn(echoPin, HIGH);
     float t = tUS / 1000.0 / 1000.0 / 2;
+    //distance in cm
     float d = t*vs;
     this->value = d;
 }
 
 float Sonar::getValue(){
     readValue();
-    return this->value;
+    return this->value * 100;
 }
