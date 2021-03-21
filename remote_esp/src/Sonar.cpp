@@ -1,4 +1,4 @@
-#include "Sonar.h"
+#include <Sonar.h>
 
 Sonar::Sonar(int triggerPin, int echoPin){
     vs = 331.45 + 0.62*(20);
