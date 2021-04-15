@@ -1,24 +1,24 @@
 
 class DataPoint {
-	private double value;
+	private int state;
 	private long time;
-	private String place;
+	private float distance;
 	
-	public DataPoint(double value, long time, String place) {
-		this.value = value;
+	public DataPoint(int state, long time, float distance) {
+		this.state = state;
 		this.time = time;
-		this.place = place;
+		this.distance = distance;
 	}
 	
-	public double getValue() {
-		return value;
+	public int getState() {
+		return state;
 	}
 	
 	public long getTime() {
 		return time;
 	}
 	
-	public String getPlace() {
-		return place;
+	public float getDistance() {
+		return distance;
 	}
 }

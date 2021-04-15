@@ -13,7 +13,6 @@ dependencies {
     implementation("org.apache.commons:commons-math3:3.6.1")
   implementation("io.vertx:vertx-core:4.0.2")
   implementation("io.vertx:vertx-web:4.0.2")
-  implementation("io.vertx:vertx-mqtt:4.0.2")
   implementation("io.vertx:vertx-mysql-client:4.0.2")   
   implementation("io.vertx:vertx-web-client:4.0.2")
 }

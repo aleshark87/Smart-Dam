@@ -9,26 +9,12 @@ public class TestClient extends AbstractVerticle {
 	
 	public static void main(String[] args) throws Exception {		
 	
-		String host = "25b3e2543bbe.ngrok.io"; // "b1164b27.ngrok.io";
+		String host = "localhost"; // "b1164b27.ngrok.io";
 		int port = 8080;
 
 		Vertx vertx = Vertx.vertx();
-		
-		JsonObject item = new JsonObject();
-		item.put("value", 20 + Math.random()*5);
-		item.put("place","nowhere");
 
 		WebClient client = WebClient.create(vertx);
-
-		System.out.println("Posting new data item... ");
-		client
-		.post(port, host, "/api/data")
-		.sendJson(item)
-		.onSuccess(response -> {
-			System.out.println("Posting - Received response with status code: " + response.statusCode());
-		});
-		
-		Thread.sleep(1000);
 		
 		System.out.println("Getting data items... ");
 		client
