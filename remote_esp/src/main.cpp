@@ -5,7 +5,7 @@
 #define ECHOPIN 5
 #define LEDPIN 2
 #define DIST1 20
-#define DIST2 5
+#define DIST2 12
 #include <HTTPClient.h>
 #include <ArduinoJson.h>
 #include <WiFi.h>
@@ -13,13 +13,12 @@
 #include <Sonar.h>
 #include <Led.h>
 
-
 /* wifi network name */
 char* ssidName = "FASTWEB-B482E1";
 /* WPA2 PSK password */
 char* pwd = "***REMOVED***";
 /* service IP address */ 
-char* address = "http://c3fd680ac54c.ngrok.io";
+char* address = "http://cdb8ee9ac868.ngrok.io";
 
 volatile float distance;
 volatile int state;
@@ -31,8 +30,8 @@ Ticker sendMsgAlarm;
 Ticker sendMsgPreAlarm;
 StaticJsonDocument<48> doc;
 const float detPeriod = 0.5;//seconds
-const float sendMsgAlarmPeriod = 1.0;
-const float sendMsgPreAlarmPeriod = 3.0;
+const float sendMsgAlarmPeriod = 3.0;
+const float sendMsgPreAlarmPeriod = 6.0;
 
 int sendData(String address, float value, String place){  
    HTTPClient http;    
@@ -100,20 +99,20 @@ void loop() {
 		case S_NORMAL:
     {
       led->off();
-			Serial.println("Stato normale");
+			//Serial.println("Stato normale");
 			break;
     }
 		case S_PREALARM:
     {
       led->pulse();
-			Serial.println("Stato preallarme");
+			//Serial.println("Stato preallarme");
 
 			break;
     }
 		case S_ALARM:
     {
       led->on();
-			Serial.println("Stato allarme");
+			//Serial.println("Stato allarme");
       
 			break;
     }
