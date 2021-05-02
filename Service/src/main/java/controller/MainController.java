@@ -15,7 +15,7 @@ public class MainController {
         serialVerticle = new SerialVerticle(this);
         internetVerticle = new InternetVerticle(this);
         model = new ModelImpl(this);
-        connection = new DatabaseConnection();
+        //connection = new DatabaseConnection();
     }
     
     public void startServices() throws Exception {

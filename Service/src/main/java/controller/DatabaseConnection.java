@@ -42,7 +42,7 @@ public class DatabaseConnection {
     }
     
     public void insertData(final DataPoint data) {
-        /*Date dt = new Date(data.getTime());
+        Date dt = new Date(data.getTime());
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String dateTime = sdf.format(dt);
         client
@@ -57,7 +57,7 @@ public class DatabaseConnection {
               } 
             
             
-        });*/
+        });
     }
     
 }

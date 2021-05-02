@@ -19,7 +19,7 @@ public class ModelImpl implements Model{
     }
     
     private void computeOpening() {
-        /* Calcola l'apertura della diga quando siamo in ALLARME */
+        /* Calcola apertura diga  */
         float tmp1Distance = alarmDistance;
         float tmp2Distance = alarmDistance - deltaD;
         //12,10
@@ -54,26 +54,41 @@ public class ModelImpl implements Model{
     public void handleNewData(final DataPoint data) {
         /* Qua arriveranno i dati */
         state = data.getState();
-        distance = data.getDistance();
-        if(state == STATE.ALARM) {
+        if(state == STATE.ALARM || state == STATE.PRE_ALARM) {
+            distance = data.getDistance();
             computeOpening();
-            notifySerial();
+            notifySerialAlarm();
+            //notifydb
         }
-        if(state != STATE.NORMAL) {
-            
+        else {
+            notifySerialNormal();
         }
     }
     
-    private void notifySerial() {
-        this.mainController.getSerialVerticle().sendMsg(new ArduinoPoint(stateToIntState(), damOpening));
+    private void notifySerialAlarm() {
+        if(state == STATE.ALARM) {
+            this.mainController.getSerialVerticle().sendMsg(new ArduinoPoint(stateToIntState(), damOpening, distance));
+        }
+        else {
+            this.mainController.getSerialVerticle().sendMsg(new ArduinoPoint(stateToIntState(), 0, distance));
+        }
+    }
+    
+    private void notifySerialNormal() {
+        this.mainController.getSerialVerticle().sendMsg(new ArduinoPoint(stateToIntState(), 0, 0.0f));
     }
     
     private int stateToIntState() {
-        if(state == STATE.PRE_ALARM) {
-            return 1;
+        if(state == STATE.NORMAL) {
+            return 0;
         }
         else {
-            return 2;
+            if(state == STATE.PRE_ALARM) {
+                return 1;
+            }
+            else {
+                return 2;
+            }
         }
     }
     
@@ -91,5 +106,7 @@ public class ModelImpl implements Model{
     public int getDamOpening() {
         return damOpening;
     }
+
+    
 
 }

@@ -18,7 +18,7 @@ char* ssidName = "FASTWEB-B482E1";
 /* WPA2 PSK password */
 char* pwd = "***REMOVED***";
 /* service IP address */ 
-char* address = "http://cdb8ee9ac868.ngrok.io";
+char* address = "http://192.168.1.151:8080";
 
 volatile float distance;
 volatile int state;
@@ -27,37 +27,52 @@ Sonar *sonar;
 Led *led;
 Ticker stateDetermination;
 Ticker sendMsgAlarm;
-Ticker sendMsgPreAlarm;
-StaticJsonDocument<48> doc;
+Ticker sendMsgNotAlarm;
+StaticJsonDocument<128> doc;
 const float detPeriod = 0.5;//seconds
-const float sendMsgAlarmPeriod = 3.0;
-const float sendMsgPreAlarmPeriod = 6.0;
+const float sendMsgAlarmPeriod = 1.5;
+const float sendMsgNotAlarmPeriod = 3.0;
 
-int sendData(String address, float value, String place){  
+int sendData(String address){  
    HTTPClient http;    
    http.begin(address + "/api/data");      
    http.addHeader("Content-Type", "application/json");
    String msg;
+   doc["type"] = "data";
    doc["state"] = state;
    doc["distance"] = distance;
    serializeJson(doc, msg);
    int retCode = http.POST(msg);   
    http.end();  
-      
-    //String payload = http.getString();  
-    //Serial.println(payload);      
    return retCode;
 }
 
-void msgPreAlarmINT() {
+int sendState(String address){
+   HTTPClient http;    
+   http.begin(address + "/api/data");      
+   http.addHeader("Content-Type", "application/json");
+   String msg;
+   doc["type"] = "state";
+   doc["state"] = state;
+   serializeJson(doc, msg);
+   int retCode = http.POST(msg);   
+   http.end();       
+   return retCode;
+}
+
+void msgNotAlarmINT() {
   if(state == S_PREALARM){
-    sendData(address, distance, "home");
+    sendData(address);
+  } else {
+    if(state == S_NORMAL){
+      sendState(address);
+    }
   }
 }
 
 void msgAlarmINT(){
   if(state == S_ALARM){
-    sendData(address, distance, "home");
+    sendData(address);
   }
 }
 
@@ -89,7 +104,7 @@ void setup() {
   led = new Led(LEDPIN); 
   distance = sonar->getValue();
   stateDetermination.attach(detPeriod, stateINT);
-  sendMsgPreAlarm.attach(sendMsgPreAlarmPeriod, msgPreAlarmINT);
+  sendMsgNotAlarm.attach(sendMsgNotAlarmPeriod, msgNotAlarmINT);
   sendMsgAlarm.attach(sendMsgAlarmPeriod, msgAlarmINT);
 }
    

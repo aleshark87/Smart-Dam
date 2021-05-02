@@ -15,14 +15,20 @@ public class DataPoint {
 		this.distance = distance;
 	}
 	
+	public DataPoint(int state) {
+	    this.state = stateComputer(state);
+	}
+	
 	private STATE stateComputer(int integerState) {
-	    intState = integerState;
-	    if(integerState == 1) {
+	    switch(integerState) {
+	    case 0:
+	        return STATE.NORMAL;
+	    case 1:
 	        return STATE.PRE_ALARM;
-	    }
-	    else {
+	    case 2:
 	        return STATE.ALARM;
 	    }
+	    return STATE.NORMAL;
 	}
 	
 	public STATE getState() {

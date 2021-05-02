@@ -42,13 +42,19 @@ public class InternetVerticle extends AbstractServiceVerticle {
 		if (res == null) {
 			sendError(400, response);
 		} else {
-			int state = res.getInteger("state");
-			float distance = res.getFloat("distance");
-			long time = System.currentTimeMillis();
-			
-			DataPoint data = new DataPoint(state, time, distance);
-			
-			this.getMainController().getModel().handleNewData(data);
+		    String type = res.getString("type");
+		    if(type.equals("data")) {
+		        int state = res.getInteger("state");
+	            float distance = res.getFloat("distance");
+	            long time = System.currentTimeMillis();
+	            DataPoint data = new DataPoint(state, time, distance);
+	            this.getMainController().getModel().handleNewData(data);
+		    }
+		    if(type.equals("state")) {
+		        int state = res.getInteger("state");
+		        DataPoint statePoint = new DataPoint(state);
+		        this.getMainController().getModel().handleNewData(statePoint);
+		    }
 			
 			response.setStatusCode(200).end();
 		}

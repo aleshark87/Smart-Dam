@@ -17,4 +17,5 @@ public interface Model {
     public float getDistance();
     
     public int getDamOpening();
+
 }
