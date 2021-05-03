@@ -1,12 +1,15 @@
 #include <MyAsyncFSM.h>
 #include <MsgSerialService.h>
 #include <MsgBtService.h>
+#include <TimerLed.h>
 
 MyAsyncFSM::MyAsyncFSM(Led* led, ServoMotor* servo){
       this->led = led;
       this->servo = servo;
       led->switchOff();
       manualMode = false;
+      prevDamOpening = 0;
+      switchingManualMode = false;
       damOpening = 0;
       this->servo->setStartValue();
       msgSerialService.registerObserver(this);
@@ -15,21 +18,25 @@ MyAsyncFSM::MyAsyncFSM(Led* led, ServoMotor* servo){
   
 void MyAsyncFSM::handleEvent(Event* ev) {
     int eventType = ev->getType();
+    computeStateSetLed(eventType);
+
     if(eventType == MANUAL && manualMode == false){
+        timerLed.setBlinking(false);
         led->switchOn();
         manualMode = true;
     }
     else {
         if(eventType == MANUAL && manualMode == true){
-            led->switchOff();
             manualMode = false;
-            servo->setPosition(damOpening);
+            switchingManualMode = true;
+            led->switchOff();
         }
     }
     
-    if(manualMode == false){
+    if(manualMode == false && switchingManualMode == false){
         damOpening = ev->getMessage();
         servo->setPosition(damOpening);
+        
         sendBtUpdate(eventType, damOpening, msgSerialService.getDistance());
     }
     else{
@@ -38,6 +45,24 @@ void MyAsyncFSM::handleEvent(Event* ev) {
         }
         if(eventType == DAM_OPEN){
             servo->setPosition(ev->getMessage());
+        }
+    }
+    if(switchingManualMode) { switchingManualMode = false; }
+
+}
+
+void MyAsyncFSM::computeStateSetLed(int eventType){
+    if(eventType == S_NORMAL || eventType == S_PREALARM){
+        if(led->getState()){
+            led->switchOff();
+        }
+        if(timerLed.getBlinkState()){
+            timerLed.setBlinking(false);
+        }
+    }
+    if(eventType == S_ALARM){
+        if(!timerLed.getBlinkState() && manualMode == false){
+            timerLed.setBlinking(true);
         }
     }
 }

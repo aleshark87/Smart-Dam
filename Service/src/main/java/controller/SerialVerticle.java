@@ -18,7 +18,6 @@ public class SerialVerticle extends AbstractServiceVerticle{
     @Override
     public void start() throws Exception {
         serialCommChannel = new SerialCommChannel(serialPort, baudRate);
-        
     }
     
     public void sendMsg(ArduinoPoint data) {

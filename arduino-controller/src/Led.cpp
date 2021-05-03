@@ -7,9 +7,15 @@ Led::Led(int pin){
 }
 
 void Led::switchOn(){
+  state = true;
   digitalWrite(pin,HIGH);
 }
 
 void Led::switchOff(){
+  state = false;
   digitalWrite(pin,LOW);
 };
+
+bool Led::getState(){
+  return state;
+}

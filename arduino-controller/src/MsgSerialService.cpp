@@ -36,7 +36,7 @@ Event* MsgSerialService::eventGenerator(const String msg){
 
   switch(state){
     case S_NORMAL:
-      ev = new NormalEvent(0);
+      ev = new NormalEvent();
       return ev;
       //case break;
     case S_PREALARM:

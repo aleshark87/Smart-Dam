@@ -7,9 +7,11 @@ class Led: public Light {
 public:
   Led(int pin);
   void switchOn();
-  void switchOff();    
+  void switchOff(); 
+  bool getState();  
 private:
   int pin;  
+  bool state;
 };
 
 #endif

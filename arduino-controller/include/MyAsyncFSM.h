@@ -10,11 +10,14 @@ class MyAsyncFSM : public AsyncFSM {
     void handleEvent(Event* ev);
 
   private:
+    bool switchingManualMode;
     bool manualMode;
+    int prevDamOpening;
     int damOpening;
     Led* led;
     ServoMotor* servo;
     void sendBtUpdate(const int eventType, const int damOpening, const float distance);
+    void computeStateSetLed(int eventType);
 };
     
 #endif

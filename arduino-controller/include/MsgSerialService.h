@@ -18,7 +18,7 @@ public:
 
 class NormalEvent: public Event {
 public:
-    NormalEvent(int message) : Event(S_NORMAL, message){}
+    NormalEvent() : Event(S_NORMAL, 0){}
 };
 
 class PreAlarmEvent: public Event {
