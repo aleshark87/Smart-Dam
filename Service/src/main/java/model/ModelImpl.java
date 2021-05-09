@@ -1,13 +1,20 @@
 package model;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import controller.ArduinoPoint;
 import controller.DataPoint;
 import controller.MainController;
+import controller.ManualModeListener;
 
-public class ModelImpl implements Model{
+public class ModelImpl implements Model, ManualModeListener{
 
+    private double alarmPeriodUpdate = 0.0;
+    private double notAlarmPeriodUpdate = 0.0;
     private final MainController mainController;
     private STATE state;
+    private boolean manualMode;
     private float distance;
     private int damOpening;
     private final float deltaD = 2.0f;
@@ -16,6 +23,8 @@ public class ModelImpl implements Model{
     public ModelImpl(MainController controller) {
         mainController = controller;
         damOpening = 0;
+        manualMode = false;
+        this.mainController.getSerialVerticle().registerListener(this);
     }
     
     private void computeOpening() {
@@ -51,14 +60,23 @@ public class ModelImpl implements Model{
         }
     }
     
+    
+    
     public void handleNewData(final DataPoint data) {
         /* Qua arriveranno i dati */
         state = data.getState();
         if(state == STATE.ALARM || state == STATE.PRE_ALARM) {
             distance = data.getDistance();
-            computeOpening();
+            if(!manualMode) {
+                computeOpening();
+                
+                //this.mainController.getConnection().insertData(data);
+            }
+            else {
+                
+            }
             notifySerialAlarm();
-            //notifydb
+          //this.mainController.getConnection().insertData(data);
         }
         else {
             notifySerialNormal();
@@ -107,6 +125,43 @@ public class ModelImpl implements Model{
         return damOpening;
     }
 
-    
+    @Override
+    public void manualMode(boolean set) {
+        //System.out.println();
+        this.manualMode = set;
+    }
 
+    @Override
+    public boolean getManualMode() {
+        
+        return manualMode;
+    }
+
+    @Override
+    public void setUpdateTimesInternet(double alarmTime, double notAlarmTime) {
+        this.alarmPeriodUpdate = alarmTime;
+        this.notAlarmPeriodUpdate = notAlarmTime;
+        //System.out.println(alarmPeriodUpdate);
+    }
+    
+    private boolean areUpdateTimesSetted() {
+        return !(alarmPeriodUpdate == 0.0 && notAlarmPeriodUpdate == 0.0);
+    }
+
+    @Override
+    public List<Double> getTimes() {
+        if(areUpdateTimesSetted()) {
+            List<Double> timesList = new LinkedList<Double>();
+            timesList.add(alarmPeriodUpdate); timesList.add(notAlarmPeriodUpdate);
+            return timesList;
+        }
+        else {
+            return null;
+        }
+    }
+
+    @Override
+    public void manualDamOpening(int damOpening) {
+        this.damOpening = damOpening;
+    }
 }

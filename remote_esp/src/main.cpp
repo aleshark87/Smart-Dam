@@ -20,6 +20,8 @@ char* pwd = "***REMOVED***";
 /* service IP address */ 
 char* address = "http://192.168.1.151:8080";
 
+volatile bool connStatus;
+volatile bool prevConnStatus;
 volatile float distance;
 volatile int state;
 
@@ -33,6 +35,30 @@ const float detPeriod = 0.5;//seconds
 const float sendMsgAlarmPeriod = 1.5;
 const float sendMsgNotAlarmPeriod = 3.0;
 
+int sendTimes(String address){
+  HTTPClient http;    
+   http.begin(address + "/api/data");      
+   http.addHeader("Content-Type", "application/json");
+   String msg;
+   doc["type"] = "times";
+   doc["prealarm_time"] = sendMsgNotAlarmPeriod;
+   doc["alarm_time"] = sendMsgAlarmPeriod;
+   serializeJson(doc, msg);
+   doc.clear();
+   int retCode = http.POST(msg);   
+   http.end();    
+   return retCode;
+}
+
+void setConnStatus(bool set){
+  if(set != connStatus){
+    connStatus = set;
+    if(connStatus){
+      sendTimes(address);
+    }
+  }
+}
+
 int sendData(String address){  
    HTTPClient http;    
    http.begin(address + "/api/data");      
@@ -42,8 +68,15 @@ int sendData(String address){
    doc["state"] = state;
    doc["distance"] = distance;
    serializeJson(doc, msg);
+   doc.clear();
    int retCode = http.POST(msg);   
    http.end();  
+   if(retCode == -1){
+     setConnStatus(false);
+   }
+   else{
+     setConnStatus(true);
+   }
    return retCode;
 }
 
@@ -54,9 +87,18 @@ int sendState(String address){
    String msg;
    doc["type"] = "state";
    doc["state"] = state;
+   //Serial.println("sending state");
    serializeJson(doc, msg);
+   doc.clear();
    int retCode = http.POST(msg);   
-   http.end();       
+   http.end();
+   //Serial.println(retCode);
+   if(retCode == -1){
+     setConnStatus(false);
+   }
+   else{
+     setConnStatus(true);
+   }
    return retCode;
 }
 
@@ -99,7 +141,13 @@ void setup() {
   while (WiFi.status() != WL_CONNECTED) {  
   } 
   Serial.println("Connected");
-  
+  int ret = sendTimes(address);
+  if(ret != -1){
+    connStatus = true;
+  }
+  else{
+    connStatus = false;
+  }
   sonar = new Sonar(TRIGGERPIN, ECHOPIN);
   led = new Led(LEDPIN); 
   distance = sonar->getValue();
@@ -109,7 +157,8 @@ void setup() {
 }
    
 void loop() { 
- if (WiFi.status()== WL_CONNECTED){   
+ if (WiFi.status()== WL_CONNECTED){ 
+
 	switch(state){
 		case S_NORMAL:
     {

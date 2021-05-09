@@ -8,7 +8,7 @@ void ledISR(void){
 
 void TimerLed::init(){
     hasToBlink = false;
-    Timer1.initialize(300000);
+    Timer1.initialize(period);
     Timer1.attachInterrupt(ledISR);
 }
 

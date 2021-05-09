@@ -21,6 +21,7 @@ void MsgBtService::sendUpdate(const int state, const int damOpening, const float
    doc1["damOpening"] = damOpening;
    doc1["distance"] = distance;
    serializeJson(doc1, msg);
+   doc1.clear();
    msgBtService.sendMsg(msg);
 }
 

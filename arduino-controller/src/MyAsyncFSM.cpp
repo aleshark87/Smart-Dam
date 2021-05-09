@@ -21,15 +21,17 @@ void MyAsyncFSM::handleEvent(Event* ev) {
     computeStateSetLed(eventType);
 
     if(eventType == MANUAL && manualMode == false){
+        msgSerialService.sendMsg("MANUAL");
         timerLed.setBlinking(false);
         led->switchOn();
         manualMode = true;
     }
     else {
         if(eventType == MANUAL && manualMode == true){
-            manualMode = false;
+            msgSerialService.sendMsg("NOMANUAL");
             switchingManualMode = true;
             led->switchOff();
+            manualMode = false;
         }
     }
     
@@ -44,7 +46,10 @@ void MyAsyncFSM::handleEvent(Event* ev) {
             sendBtUpdate(eventType, -1, msgSerialService.getDistance());
         }
         if(eventType == DAM_OPEN){
-            servo->setPosition(ev->getMessage());
+            int number = ev->getMessage();
+            String open(ev->getMessage());
+            msgSerialService.sendMsg("open=" + open);
+            servo->setPosition(number);
         }
     }
     if(switchingManualMode) { switchingManualMode = false; }

@@ -41,6 +41,20 @@ public class DatabaseConnection {
       });
     }
     
+    public void getLatestData(int dataNumber) {
+        client
+        .preparedQuery("SELECT * FROM `MEASUREMENTS` ORDER BY Time DESC LIMIT ?")
+        .execute(Tuple.of(dataNumber), ar -> {
+            if(ar.succeeded()) {
+                RowSet<Row> rows = ar.result();
+                System.out.println("Got " + rows.size() + " rows ");
+            }
+            else {
+                System.out.println("Failure: " + ar.cause().getMessage());
+            }
+        });
+    }
+    
     public void insertData(final DataPoint data) {
         Date dt = new Date(data.getTime());
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -50,7 +64,7 @@ public class DatabaseConnection {
         .execute(Tuple.of(dateTime, data.getDistance()), ar -> {
             
             if (ar.succeeded()) {
-                System.out.println("Data inserted.");
+                //System.out.println("Data inserted.");
               } 
             else {
                 System.out.println("Failure: " + ar.cause().getMessage());

@@ -11,6 +11,7 @@ AsyncFSM* myAsyncFSM;
 AsyncFSM* ledAsyncFSM;
 
 void setup() {
+  pinMode(12, OUTPUT);
   msgSerialService.init();
   timerLed.init();
   msgBtService.init();

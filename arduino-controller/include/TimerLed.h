@@ -14,6 +14,7 @@ public:
     void setBlinking(bool set);
     bool getBlinkState();
 private:
+    const long period = (long)300000;
     volatile bool hasToBlink;
     Led* led;
 };

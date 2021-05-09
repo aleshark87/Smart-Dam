@@ -1,4 +1,7 @@
 package controller;
+
+import jssc.SerialPortEventListener;
+
 /**
  * Simple interface for an async msg communication channel
  * @author aricci
@@ -28,5 +31,7 @@ public interface CommChannel {
      * @return
      */
     boolean isMsgAvailable();
+    
+    public void registerListener(MsgEventListener listener);
 
 }

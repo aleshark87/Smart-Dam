@@ -10,9 +10,14 @@ import jssc.*;
  */
 public class SerialCommChannel implements CommChannel, SerialPortEventListener {
 
+    private MsgEventListener listener;
     private SerialPort serialPort;
     private BlockingQueue<String> queue;
     private StringBuffer currentMsg = new StringBuffer("");
+    
+    public void registerListener(MsgEventListener listener) {
+        this.listener = listener;
+    }
     
     public SerialCommChannel(String port, int rate) throws Exception {
         queue = new ArrayBlockingQueue<String>(100);
@@ -28,9 +33,10 @@ public class SerialCommChannel implements CommChannel, SerialPortEventListener {
         serialPort.setFlowControlMode(SerialPort.FLOWCONTROL_RTSCTS_IN | 
                                           SerialPort.FLOWCONTROL_RTSCTS_OUT);
 
-        // serialPort.addEventListener(this, SerialPort.MASK_RXCHAR);
         serialPort.addEventListener(this);
     }
+    
+    
 
     @Override
     public void sendMsg(String msg) {
@@ -92,6 +98,15 @@ public class SerialCommChannel implements CommChannel, SerialPortEventListener {
                         String msg2 = currentMsg.toString();
                         int index = msg2.indexOf("\n");
                         if (index >= 0) {
+                            new Thread(new Runnable() {
+                                public void run()
+                                {
+                                    // check if listener is registered.
+                                    if (listener != null) {
+                                        listener.msgArrived(msg2.substring(0, index));;
+                                    }
+                                }
+                            }).start();
                             queue.put(msg2.substring(0, index));
                             currentMsg = new StringBuffer("");
                             if (index + 1 < msg2.length()) {

@@ -3,6 +3,7 @@
 
 Led::Led(int pin){
   this->pin = pin;
+  state = false;
   pinMode(pin,OUTPUT);
 }
 

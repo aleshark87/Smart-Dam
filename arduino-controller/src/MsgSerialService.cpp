@@ -5,15 +5,26 @@ String content;
 StaticJsonDocument <128>doc;
 MsgSerialService msgSerialService;
 float distance;
+bool test;
 
 void MsgSerialService::init(){
+  test = false;
   Serial.begin(9600);
   content.reserve(256);
   content = "";
 }
 
 void MsgSerialService::sendMsg(const String msg){
-  Serial.println(msg);  
+  if(test == false){
+    digitalWrite(12, true);
+    test = true;
+  }
+  else{
+    digitalWrite(12, false);
+    test = false;
+  }
+  Serial.println(msg);
+  Serial.flush();
 }
 
 float MsgSerialService::getDistance(){
@@ -31,6 +42,7 @@ Event* MsgSerialService::eventGenerator(const String msg){
   const int state = doc["state"];
   const int damOpening = doc["damOpening"];
   distance = doc["distance"];
+  doc.clear();
   Event* ev;
 
 
