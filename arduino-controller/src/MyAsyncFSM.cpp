@@ -27,7 +27,7 @@ void MyAsyncFSM::handleEvent(Event* ev) {
         manualMode = true;
     }
     else {
-        if(eventType == MANUAL && manualMode == true){
+        if(eventType == NOMANUAL && manualMode == true){
             msgSerialService.sendMsg("NOMANUAL");
             switchingManualMode = true;
             led->switchOff();
@@ -42,7 +42,7 @@ void MyAsyncFSM::handleEvent(Event* ev) {
         sendBtUpdate(eventType, damOpening, msgSerialService.getDistance());
     }
     else{
-        if(eventType != MANUAL){
+        if(eventType != MANUAL && eventType != NOMANUAL){
             sendBtUpdate(eventType, -1, msgSerialService.getDistance());
         }
         if(eventType == DAM_OPEN){

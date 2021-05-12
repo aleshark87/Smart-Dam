@@ -2,6 +2,8 @@ package controller;
 
 import com.google.gson.Gson;
 
+import io.vertx.core.Vertx;
+
 public class SerialVerticle extends AbstractServiceVerticle implements MsgEventListener{
 
     private static final String serialPort = "/dev/ttyACM0";
@@ -34,14 +36,14 @@ public class SerialVerticle extends AbstractServiceVerticle implements MsgEventL
     }
     @Override
     public void msgArrived(String msg) {
+        System.out.println(testingCounter);
         testingCounter++;
-        System.out.println(msg + " " + testingCounter);
-        if(msg.equals("MANUAL") || msg.equals("NOMANUAL") || msg.contains("open=")) {
-            
+    
+        if(msg.equals("MANUAL") || msg.equals("NOMANUAL") || msg.contains("=")) {
             new Thread(new Runnable() {
                 public void run()
                 {
-                    if(!msg.contains("open=")) {
+                    if(!msg.contains("=")) {
                         boolean set = false;
                         if(msg.equals("MANUAL")) { set = true; }
                         // check if listener is registered.
@@ -49,11 +51,17 @@ public class SerialVerticle extends AbstractServiceVerticle implements MsgEventL
                             manualListener.manualMode(set);
                         }
                     }
+                    else {
+                        if(manualListener != null) {
+                            manualListener.manualDamOpening(Integer.parseInt(msg.split("=")[1]));
+                        }
+                    }
                 }
             }).start();
         }
         
     }
+    
     
 
 }

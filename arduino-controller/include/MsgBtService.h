@@ -13,9 +13,14 @@ public:
     Event* eventGenerator(const String msg);
 };
 
-class BtMsgEvent : public Event {
+class BtManualMsgEvent : public Event {
 public:
-    BtMsgEvent(int message) : Event(MANUAL, message){}
+    BtManualMsgEvent(int message) : Event(MANUAL, message){}
+};
+
+class BtNoManualMsgEvent : public Event {
+public:
+    BtNoManualMsgEvent(int message) : Event(NOMANUAL, message){}
 };
 
 class DamOpenMsgEvent : public Event {

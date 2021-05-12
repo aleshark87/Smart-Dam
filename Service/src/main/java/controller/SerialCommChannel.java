@@ -12,6 +12,7 @@ public class SerialCommChannel implements CommChannel, SerialPortEventListener {
 
     private MsgEventListener listener;
     private SerialPort serialPort;
+    private int counter = 0;
     private BlockingQueue<String> queue;
     private StringBuffer currentMsg = new StringBuffer("");
     
@@ -107,7 +108,7 @@ public class SerialCommChannel implements CommChannel, SerialPortEventListener {
                                     }
                                 }
                             }).start();
-                            queue.put(msg2.substring(0, index));
+                            //queue.put(msg2.substring(0, index));
                             currentMsg = new StringBuffer("");
                             if (index + 1 < msg2.length()) {
                                 currentMsg.append(msg2.substring(index + 1)); 

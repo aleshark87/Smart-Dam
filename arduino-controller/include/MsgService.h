@@ -11,7 +11,8 @@
 #define S_ALARM 2
 #define ALARM_MSG_EVENT 3
 #define MANUAL 4
-#define DAM_OPEN 5
+#define NOMANUAL 5
+#define DAM_OPEN 6
 #define NODAMUPDATE -1
 
 class MsgService : public EventSource{

@@ -43,9 +43,12 @@ void MsgBtService::btSerialEvent(){
 Event* MsgBtService::eventGenerator(const String msg){
     
     if(msg.compareTo("MANUAL") == 0){
-        return new BtMsgEvent(MANUAL);
+        return new BtManualMsgEvent(MANUAL);
     }
     else{
+        if(msg.compareTo("NOMANUAL") == 0){
+            return new BtNoManualMsgEvent(NOMANUAL);
+        }
         return new DamOpenMsgEvent(msg.toInt());
     }
 }
