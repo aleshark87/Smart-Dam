@@ -12,8 +12,6 @@ public class SerialVerticle extends AbstractServiceVerticle implements MsgEventL
     private ManualModeListener manualListener;
     private Gson gson;
     
-    private int testingCounter;
-    
     public void registerListener(ManualModeListener listener) {
         this.manualListener = listener;
     }
@@ -21,7 +19,6 @@ public class SerialVerticle extends AbstractServiceVerticle implements MsgEventL
     public SerialVerticle(MainController controller) {
         super(controller);
         gson = new Gson();
-        testingCounter = 0;
     }
     @Override
     public void start() throws Exception {
@@ -31,14 +28,11 @@ public class SerialVerticle extends AbstractServiceVerticle implements MsgEventL
     
     public void sendMsg(ArduinoPoint data) {
         String jsonString = gson.toJson(data);
-        //System.out.println("Sending: " + jsonString);
         serialCommChannel.sendMsg(jsonString);
     }
     @Override
     public void msgArrived(String msg) {
-        System.out.println(testingCounter);
-        testingCounter++;
-    
+        
         if(msg.equals("MANUAL") || msg.equals("NOMANUAL") || msg.contains("=")) {
             new Thread(new Runnable() {
                 public void run()

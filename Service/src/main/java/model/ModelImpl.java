@@ -17,6 +17,7 @@ public class ModelImpl implements Model, ManualModeListener{
     private boolean manualMode;
     private float distance;
     private int damOpening;
+    private long time;
     private final float deltaD = 2.0f;
     private final float alarmDistance = 12.0f;
     
@@ -66,17 +67,14 @@ public class ModelImpl implements Model, ManualModeListener{
         /* Qua arriveranno i dati */
         state = data.getState();
         if(state == STATE.ALARM || state == STATE.PRE_ALARM) {
+            time = data.getTime();
             distance = data.getDistance();
             if(!manualMode) {
                 computeOpening();
-                
-                //this.mainController.getConnection().insertData(data);
-            }
-            else {
-                
+                this.mainController.getConnection().insertData(data);
             }
             notifySerialAlarm();
-          //this.mainController.getConnection().insertData(data);
+          this.mainController.getConnection().insertData(data);
         }
         else {
             notifySerialNormal();
@@ -163,5 +161,10 @@ public class ModelImpl implements Model, ManualModeListener{
     @Override
     public void manualDamOpening(int damOpening) {
         this.damOpening = damOpening;
+    }
+
+    @Override
+    public long getTime() {
+        return time;
     }
 }

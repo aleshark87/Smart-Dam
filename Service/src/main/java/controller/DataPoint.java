@@ -1,6 +1,8 @@
 package controller;
 
 
+import java.time.LocalDateTime;
+
 import model.Model.STATE;
 
 public class DataPoint {
@@ -8,6 +10,7 @@ public class DataPoint {
 	private int intState;
 	private long time;
 	private float distance;
+	private LocalDateTime localTime;
 	
 	public DataPoint(int state, long time, float distance) {
 		this.state = stateComputer(state);
@@ -15,8 +18,22 @@ public class DataPoint {
 		this.distance = distance;
 	}
 	
+	public DataPoint(long time, float distance) {
+	    this.time = time;
+	    this.distance = distance;
+	}
+	
 	public DataPoint(int state) {
 	    this.state = stateComputer(state);
+	}
+	
+	public DataPoint(LocalDateTime localTime, float distance) {
+	    this.localTime = localTime;
+	    this.distance = distance;
+	}
+	
+	public String getDbTime() {
+	    return localTime.toString();
 	}
 	
 	private STATE stateComputer(int integerState) {

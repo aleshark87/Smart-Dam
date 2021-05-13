@@ -19,6 +19,8 @@ public interface Model {
     
     public void handleNewData(final DataPoint data);
     
+    public long getTime();
+    
     public STATE getState();
     
     public float getDistance();

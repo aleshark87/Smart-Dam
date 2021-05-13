@@ -20,4 +20,8 @@ public class Controller extends AbstractVerticle{
         return viewController;
     }
     
+    public HttpConnection getConnection() {
+        return connection;
+    }
+    
 }

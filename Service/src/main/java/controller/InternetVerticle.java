@@ -2,12 +2,17 @@ package controller;
 
 import java.util.List;
 
+import io.vertx.core.Future;
 import io.vertx.core.http.HttpServerResponse;
+import io.vertx.core.json.Json;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.handler.BodyHandler;
+import io.vertx.sqlclient.Row;
+import io.vertx.sqlclient.RowSet;
+import model.Model.STATE;
 
 /*
  * Data Service as a vertx event-loop 
@@ -26,6 +31,7 @@ public class InternetVerticle extends AbstractServiceVerticle {
 		router.route().handler(BodyHandler.create());
 		router.post("/api/data").handler(this::handleAddNewData);
 		router.get("/api/data/times").handler(this::handleGetTimes);
+		router.get("/api/data/levels").handler(this::handleLevels);
 		router.get("/api/data").handler(this::handleGetData);
 		vertx
 			.createHttpServer()
@@ -72,8 +78,11 @@ public class InternetVerticle extends AbstractServiceVerticle {
         data.put("state", state);
         data.put("manualMode", getMainController().getModel().getManualMode());
         data.put("level", getMainController().getModel().getDistance());
-        if(state.equals("ALARM")) {
-            data.put("damOpening", getMainController().getModel().getDamOpening());
+        if(!state.equals("NORMAL")) {
+            if(state.equals("ALARM")) {
+                data.put("damOpening", getMainController().getModel().getDamOpening());
+            }
+            data.put("time", getMainController().getModel().getTime());
         }
         arr.add(data);
         //System.out.println(arr.encode());
@@ -101,6 +110,30 @@ public class InternetVerticle extends AbstractServiceVerticle {
 			.end(arr.encode());
 		
 	}
+	
+	private void handleLevels(RoutingContext routingContext) {
+        JsonArray arr = new JsonArray();
+        Future<RowSet<Row>> lastLevels = getMainController().getConnection().getLatestData(20);
+        
+        lastLevels.onComplete(req -> {
+            if(req.succeeded()) {
+                RowSet<Row> results = req.result();
+                
+                results.forEach(value -> {
+                    JsonObject obj = new JsonObject();
+                    obj.put("time", value.getLocalDateTime(0).toString());
+                    obj.put("level", value.getFloat(1));
+                    arr.add(obj);
+                });
+                
+                routingContext.response()
+                .putHeader("content-type", "application/json")
+                .end(arr.encode());
+            }
+         });
+        
+        
+    }
 	
 	private void sendError(int statusCode, HttpServerResponse response) {
 		response.setStatusCode(statusCode).end();

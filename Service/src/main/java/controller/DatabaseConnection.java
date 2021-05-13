@@ -1,10 +1,18 @@
 package controller;
 
 
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
 
+import io.vertx.core.Future;
+import io.vertx.core.Promise;
 import io.vertx.mysqlclient.MySQLConnectOptions;
+import io.vertx.mysqlclient.MySQLConnection;
 import io.vertx.mysqlclient.MySQLPool;
 import io.vertx.sqlclient.PoolOptions;
 import io.vertx.sqlclient.Row;
@@ -12,8 +20,11 @@ import io.vertx.sqlclient.RowSet;
 import io.vertx.sqlclient.Tuple;
 
 public class DatabaseConnection {
-
+    
+    private List<DataPoint> latestData = new LinkedList<>();
+    private RowSet<Row> rows;
     private MySQLPool client;
+    private MySQLConnection conn;
     
     public DatabaseConnection() {
         MySQLConnectOptions connectOptions = new MySQLConnectOptions()
@@ -41,18 +52,25 @@ public class DatabaseConnection {
       });
     }
     
-    public void getLatestData(int dataNumber) {
+    public Future<RowSet<Row>> getLatestData(int dataNumber) {
+        Promise<RowSet<Row>> dataPromise = Promise.promise();
+        
         client
         .preparedQuery("SELECT * FROM `MEASUREMENTS` ORDER BY Time DESC LIMIT ?")
         .execute(Tuple.of(dataNumber), ar -> {
             if(ar.succeeded()) {
-                RowSet<Row> rows = ar.result();
-                System.out.println("Got " + rows.size() + " rows ");
+                if(ar.result() != null) {
+                    dataPromise.complete(ar.result());
+                }
+                else {
+                    dataPromise.complete(null);
+                }
             }
             else {
                 System.out.println("Failure: " + ar.cause().getMessage());
             }
         });
+        return dataPromise.future();
     }
     
     public void insertData(final DataPoint data) {
@@ -67,7 +85,7 @@ public class DatabaseConnection {
                 //System.out.println("Data inserted.");
               } 
             else {
-                System.out.println("Failure: " + ar.cause().getMessage());
+                //System.out.println("Failure: " + ar.cause().getMessage());
               } 
             
             

@@ -6,22 +6,28 @@ import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
+
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
-import javafx.scene.text.Font;
-import java.util.ArrayList;
+
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
+
+
+import io.vertx.core.Future;
 
 
 public class MainSceneController {
     
+    private LineChart<String, Number> lineChart;
+    private XYChart.Series<String, Number> series;
+    private final int WINDOW_SIZE = 20;
+    private boolean changeToPreAlarm = true;
+    private boolean firstExec = true;
+    private String prevState = "UNDEFINED";
+    private String state = "UNDEFINED";
     private Controller controller = new Controller(this);
     
     @FXML
@@ -40,20 +46,82 @@ public class MainSceneController {
     private Label titleLabel;
     
     public void dataUpdate(Data data) {
-        Platform.runLater(new Runnable() {
-
-            @Override
-            public void run() {
-                String level = data.getState().equals("NORMAL") ? " > 20" : Double.toString(data.getLevel());
-                String stateLevel = "State = " + data.getState() + ", Level = " + level;
-                setLabelText(stateLevelLabel, stateLevel);
-                String manualMode = "Manual mode = " + data.isManualMode();
-                String damOpening = data.getState().equals("ALARM") ? ", Dam Opening = " + data.getDamOpening() : "";
-                String manualDam = manualMode + damOpening;
-                setLabelText(manualLabel, manualDam);
+        prevState = state;
+        state = data.getState();
+        if(state.equals("PRE_ALARM") && prevState.equals("NORMAL")) {
+            changeToPreAlarm = true;
+        }
+        else {
+            if(state.equals("PRE_ALARM") && firstExec) {
+                changeToPreAlarm = true;
+                firstExec = false;
             }
-            
-        });
+            else {
+                changeToPreAlarm = false;
+            }
+        }
+        String level = data.getState().equals("NORMAL") ? " > 20" : Double.toString(data.getLevel());
+        String stateLevel = "State = " + data.getState() + ", Level = " + level;
+        setLabelText(stateLevelLabel, stateLevel);
+        String manualMode = "Manual mode = " + data.isManualMode();
+        String damOpening = data.getState().equals("ALARM") ? ", Dam Opening = " + data.getDamOpening() : "";
+        String manualDam = manualMode + damOpening;
+        setLabelText(manualLabel, manualDam);
+        updateChart(data);
+    }
+    
+    private void updateChart(Data data) {
+        
+        Date dt = new Date(data.getTime());
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+        String dateTime = sdf.format(dt);
+        if(data.getState().equals("NORMAL")) {
+            Platform.runLater(new Runnable() {
+
+                @Override
+                public void run() {
+                    series.getData().clear();
+                    series.getData().add(new XYChart.Data<>(" ", 20));
+                }
+                
+            });
+        }
+        else {
+            if(changeToPreAlarm) {
+                Future<List<Data>> futureData = controller.getConnection().getDataFromService(WINDOW_SIZE / 2);
+                futureData.onComplete(req -> {
+                    if(req.succeeded()) {
+                        List<Data> results = req.result();
+                        System.out.println(results.size());
+                        Platform.runLater(new Runnable() {
+
+                            @Override
+                            public void run() {
+                                series.getData().clear();
+                                for(Data res : results) {
+                                    series.getData().add(
+                                            new XYChart.Data<>(res.getTimeString(), res.getDistanceRounded()));
+                                }
+                            }
+                            
+                        });
+                    }
+                 });
+            }
+            else {
+                Platform.runLater(new Runnable() {
+                    
+                    @Override
+                    public void run() {
+                        series.getData().add(
+                                new XYChart.Data<>(dateTime, data.getLevel()));
+                        if (series.getData().size() > WINDOW_SIZE)
+                          series.getData().remove(0);
+                    }
+                    
+                });
+            }
+        }
     }
     
     private void setLabelText(Label lbl, String text) {
@@ -62,7 +130,6 @@ public class MainSceneController {
             @Override
             public void run() {
                 lbl.setText(text);
-                
             }
             
         });
@@ -73,54 +140,27 @@ public class MainSceneController {
         setLabelText(stateLevelLabel, "State = UNDEFINED, Level = UNDEFINED");
         setLabelText(manualLabel, "Manual Mode = UNDEFINED");
         controller.start();
-        //final List<CategoryAxis> xAxis
-        /*
-        final List<CategoryAxis> xAxis = new ArrayList<>();
-        final List<NumberAxis> yAxis = new ArrayList<>();
-        //for(int i = 0; i < NUM_GRAPHS; i++) {
-            var xAxisIstance = new CategoryAxis(); var yAxisIstance = new NumberAxis();
-            xAxisIstance.setLabel("Time"); xAxisIstance.setAnimated(false);
-            yAxisIstance.setAnimated(false);
-            xAxis.add(xAxisIstance); yAxis.add(yAxisIstance);
-        //}
-        yAxis.get(0).setLabel("Speed(Cm/S)"); yAxis.get(1).setLabel("Pos(Cm)"); yAxis.get(2).setLabel("Acc(Cm/s^2)");
+        
+        final CategoryAxis xAxis;
+        final NumberAxis yAxis;
+        xAxis = new CategoryAxis(); yAxis = new NumberAxis();
+        xAxis.setLabel("Time"); yAxis.setLabel("Level");
+        xAxis.setAnimated(false); yAxis.setAnimated(true);
         
         // creating the line chart with two axis created above
-        final LineChart<String, Number> lineChartSpeed = new LineChart<>(xAxis.get(0), yAxis.get(0));
-        final LineChart<String, Number> lineChartPos = new LineChart<>(xAxis.get(1), yAxis.get(1));
-        final LineChart<String, Number> lineChartAcc = new LineChart<>(xAxis.get(2), yAxis.get(2));
-        lineChartSpeed.setAnimated(false); // disable animations
-        lineChartPos.setAnimated(false);
-        lineChartAcc.setAnimated(false);
+        lineChart = new LineChart<>(xAxis, yAxis);
+        lineChart.setAnimated(false); // disable animations
 
         // defining a series to display data
-        XYChart.Series<String, Number> seriesSpeed = new XYChart.Series<>();
-        seriesSpeed.setName("Speed");
-
-        XYChart.Series<String, Number> seriesPos = new XYChart.Series<>();
-        seriesPos.setName("Pos");
-        
-        XYChart.Series<String, Number> seriesAcc = new XYChart.Series<>();
-        seriesAcc.setName("Acc");
-
-        // setup a scheduled executor to periodically put data into the chart
-        scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
-        Paint paint = Color.BLACK;
-        startTimeMillis = System.currentTimeMillis();
-        scheduledExecutorService.scheduleAtFixedRate(() -> {
-            Platform.runLater(() -> {
-                //seriesSpeed.getData().add(new XYChart.Data<>(currentTime, Integer.parseInt(speed)));
-                 
-                if (seriesSpeed.getData().size() > WINDOW_SIZE)
-                    seriesSpeed.getData().remove(0);
-            });
-        }, 0, 20, TimeUnit.MILLISECONDS);
+        series = new XYChart.Series<>();
         
         // add series to chart
-        lineChartSpeed.getData().add(seriesSpeed);
+        lineChart.getData().add(series);
 
-        lineChartSpeed.setPrefSize(1280, 350);
+        lineChart.setPrefSize(1280, 400);
 
-        //containerLineChart.getChildren().addAll(lineChartAcc);*/
+        chartContainer.getChildren().addAll(lineChart);
     }
+    
+    
 }
