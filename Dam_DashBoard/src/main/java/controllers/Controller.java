@@ -1,7 +1,12 @@
 package controllers;
 
 import io.vertx.core.AbstractVerticle;
-
+/**
+ * Controller that connects the SceneController with the
+ * HTTP connection of the client.
+ * @author aless
+ *
+ */
 public class Controller extends AbstractVerticle{
     private MainSceneController viewController;
     private HttpConnection connection;

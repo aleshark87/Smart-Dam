@@ -2,16 +2,10 @@ package controllers;
 
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
-import java.util.function.Consumer;
-
-import com.google.gson.Gson;
-
-
 import io.vertx.core.AbstractVerticle;
 import io.vertx.core.Future;
 import io.vertx.core.Promise;
@@ -19,7 +13,6 @@ import io.vertx.core.Vertx;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.client.WebClient;
-import javafx.application.Platform;
 
 public class HttpConnection extends AbstractVerticle{
 	
@@ -141,7 +134,7 @@ public class HttpConnection extends AbstractVerticle{
         .onSuccess(res -> {
                 List<Data> dataIntern = new ArrayList<>();
                 JsonArray response = res.bodyAsJsonArray();
-                for (int i = 0; i < response.size(); i++) {
+                for (int i = (response.size() - 1); i >= 0; i--) {
                     JsonObject obj = response.getJsonObject(i);
                     dataIntern.add(new Data(obj.getString("time"), obj.getFloat("level")));
                 }

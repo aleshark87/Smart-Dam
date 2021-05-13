@@ -69,6 +69,7 @@ int sendData(String address){
    doc["distance"] = distance;
    serializeJson(doc, msg);
    doc.clear();
+   Serial.println(msg);
    int retCode = http.POST(msg);   
    http.end();  
    if(retCode == -1){

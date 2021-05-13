@@ -18,6 +18,11 @@ import java.util.List;
 
 import io.vertx.core.Future;
 
+/**
+ * JavaFX controller for the scene.
+ * @author aless
+ *
+ */
 
 public class MainSceneController {
     
@@ -45,22 +50,28 @@ public class MainSceneController {
     @FXML
     private Label titleLabel;
     
+    /**
+     * When the client gets new Data.
+     * I set up a var to know when the state goes to prealarm from normal
+     * @param data
+     */
     public void dataUpdate(Data data) {
         prevState = state;
         state = data.getState();
         if(state.equals("PRE_ALARM") && prevState.equals("NORMAL")) {
             changeToPreAlarm = true;
+            if(firstExec) { firstExec = false; }
         }
         else {
             if(state.equals("PRE_ALARM") && firstExec) {
                 changeToPreAlarm = true;
-                firstExec = false;
             }
             else {
                 changeToPreAlarm = false;
             }
+            if(firstExec) { firstExec = false; }
         }
-        String level = data.getState().equals("NORMAL") ? " > 20" : Double.toString(data.getLevel());
+        String level = data.getState().equals("NORMAL") ? " > 20" : Double.toString(data.getLevelRounded());
         String stateLevel = "State = " + data.getState() + ", Level = " + level;
         setLabelText(stateLevelLabel, stateLevel);
         String manualMode = "Manual mode = " + data.isManualMode();
@@ -70,6 +81,10 @@ public class MainSceneController {
         updateChart(data);
     }
     
+    /**
+     * Updates are committed to chart.
+     * @param data
+     */
     private void updateChart(Data data) {
         
         Date dt = new Date(data.getTime());
@@ -100,7 +115,7 @@ public class MainSceneController {
                                 series.getData().clear();
                                 for(Data res : results) {
                                     series.getData().add(
-                                            new XYChart.Data<>(res.getTimeString(), res.getDistanceRounded()));
+                                            new XYChart.Data<>(res.getTimeString(), res.getLevelRounded()));
                                 }
                             }
                             
@@ -114,7 +129,7 @@ public class MainSceneController {
                     @Override
                     public void run() {
                         series.getData().add(
-                                new XYChart.Data<>(dateTime, data.getLevel()));
+                                new XYChart.Data<>(dateTime, data.getLevelRounded()));
                         if (series.getData().size() > WINDOW_SIZE)
                           series.getData().remove(0);
                     }
@@ -135,6 +150,7 @@ public class MainSceneController {
         });
         
     }
+
     @FXML
     private void initialize() {
         setLabelText(stateLevelLabel, "State = UNDEFINED, Level = UNDEFINED");
@@ -145,7 +161,6 @@ public class MainSceneController {
         final NumberAxis yAxis;
         xAxis = new CategoryAxis(); yAxis = new NumberAxis();
         xAxis.setLabel("Time"); yAxis.setLabel("Level");
-        xAxis.setAnimated(false); yAxis.setAnimated(true);
         
         // creating the line chart with two axis created above
         lineChart = new LineChart<>(xAxis, yAxis);
@@ -153,12 +168,12 @@ public class MainSceneController {
 
         // defining a series to display data
         series = new XYChart.Series<>();
-        
+        series.setName("Water Level");
         // add series to chart
         lineChart.getData().add(series);
 
         lineChart.setPrefSize(1280, 400);
-
+       
         chartContainer.getChildren().addAll(lineChart);
     }
     

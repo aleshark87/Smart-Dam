@@ -1,5 +1,11 @@
 package controllers;
 
+/**
+ * Data gets together all the data needed by dashboard.
+ * @author aless
+ *
+ */
+
 public class Data {
     private String state;
     private boolean manualMode;
@@ -7,7 +13,6 @@ public class Data {
     private long time = 0;
     private int damOpening = -1;
     private String timeString = "";
-    private float distance = 0.0f;
     
     public Data(String state, boolean manualMode, double level, int damOpening, long time) {
         this.state = state;
@@ -17,9 +22,9 @@ public class Data {
         this.time = time;
     }
     
-    public Data(String timeString, float distance) {
+    public Data(String timeString, float level) {
         this.timeString = timeString;
-        this.distance = distance;
+        this.level = level;
     }
     
     public String getTimeString() {
@@ -27,9 +32,8 @@ public class Data {
         return smallData;
     }
     
-    public double getDistanceRounded() {
-        //DecimalFormat df = new DecimalFormat("###.##");
-        return Math.round(distance*100.0)/100.0;
+    public double getLevelRounded() {
+        return Math.round(level*100.0)/100.0;
     }
     
     public int getDamOpening(){
@@ -42,10 +46,6 @@ public class Data {
 
     public String isManualMode() {
         return manualMode ? "On" : "Off";
-    }
-
-    public double getLevel() {
-        return level;
     }
     
     public long getTime() {

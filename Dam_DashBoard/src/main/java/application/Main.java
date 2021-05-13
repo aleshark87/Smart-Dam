@@ -6,11 +6,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import java.util.concurrent.Executors;
-
-import controllers.Controller;
-import controllers.HttpConnection;
-
 /**
  * This class represent the Main class of the JavaFX-based application.
  */
@@ -24,7 +19,7 @@ public final class Main extends Application {
         final Parent root = FXMLLoader.load(ClassLoader.getSystemResource("layouts/MainScene.fxml"));
         final Scene scene = new Scene(root, SCENE_WIDTH, SCENE_HEIGHT);
         // Stage configuration
-        stage.setTitle("JavaFX - Complete Example");
+        stage.setTitle("Dam Dashboard");
         stage.setScene(scene);
         stage.show();
     }
