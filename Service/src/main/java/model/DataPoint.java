@@ -1,6 +1,8 @@
-package controller;
+package model;
 
-
+/**
+ * Useful Class to exchange data.
+ */
 import java.time.LocalDateTime;
 
 import model.Model.STATE;

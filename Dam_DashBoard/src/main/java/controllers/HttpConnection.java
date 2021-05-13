@@ -1,6 +1,5 @@
 package controllers;
 
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executors;
@@ -14,6 +13,11 @@ import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.client.WebClient;
 
+/**
+ * Client connection with the server.
+ * @author aless
+ *
+ */
 public class HttpConnection extends AbstractVerticle{
 	
     private Controller controller;

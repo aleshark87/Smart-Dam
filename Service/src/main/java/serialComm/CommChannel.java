@@ -1,6 +1,6 @@
-package controller;
+package serialComm;
 
-import jssc.SerialPortEventListener;
+import controller.MsgEventListener;
 
 /**
  * Simple interface for an async msg communication channel

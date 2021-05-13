@@ -1,9 +1,17 @@
 package controller;
 
+import httpComm.DatabaseConnection;
+import httpComm.InternetVerticle;
 import io.vertx.core.Vertx;
 import model.Model;
 import model.ModelImpl;
+import serialComm.SerialVerticle;
 
+/**
+ * Controller to connect all the parts of the Dam Service.
+ * @author aless
+ *
+ */
 public class MainController {
 
     private SerialVerticle serialVerticle;

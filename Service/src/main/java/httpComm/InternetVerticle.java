@@ -1,10 +1,11 @@
-package controller;
+package httpComm;
 
 import java.util.List;
 
+import controller.AbstractServiceVerticle;
+import controller.MainController;
 import io.vertx.core.Future;
 import io.vertx.core.http.HttpServerResponse;
-import io.vertx.core.json.Json;
 import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.Router;
@@ -12,10 +13,12 @@ import io.vertx.ext.web.RoutingContext;
 import io.vertx.ext.web.handler.BodyHandler;
 import io.vertx.sqlclient.Row;
 import io.vertx.sqlclient.RowSet;
-import model.Model.STATE;
+import model.DataPoint;
 
-/*
- * Data Service as a vertx event-loop 
+/**
+ * Verticle for http communication.
+ * @author aless
+ *
  */
 public class InternetVerticle extends AbstractServiceVerticle {
 
@@ -85,7 +88,7 @@ public class InternetVerticle extends AbstractServiceVerticle {
             data.put("time", getMainController().getModel().getTime());
         }
         arr.add(data);
-        //System.out.println(arr.encode());
+
         routingContext.response()
             .putHeader("content-type", "application/json")
             .end(arr.encode());

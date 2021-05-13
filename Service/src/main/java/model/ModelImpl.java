@@ -3,8 +3,6 @@ package model;
 import java.util.LinkedList;
 import java.util.List;
 
-import controller.ArduinoPoint;
-import controller.DataPoint;
 import controller.MainController;
 import controller.ManualModeListener;
 
@@ -29,7 +27,6 @@ public class ModelImpl implements Model, ManualModeListener{
     }
     
     private void computeOpening() {
-        /* Calcola apertura diga  */
         float tmp1Distance = alarmDistance;
         float tmp2Distance = alarmDistance - deltaD;
         //12,10
@@ -64,7 +61,6 @@ public class ModelImpl implements Model, ManualModeListener{
     
     
     public void handleNewData(final DataPoint data) {
-        /* Qua arriveranno i dati */
         state = data.getState();
         if(state == STATE.ALARM || state == STATE.PRE_ALARM) {
             time = data.getTime();
@@ -125,13 +121,11 @@ public class ModelImpl implements Model, ManualModeListener{
 
     @Override
     public void manualMode(boolean set) {
-        //System.out.println();
         this.manualMode = set;
     }
 
     @Override
     public boolean getManualMode() {
-        
         return manualMode;
     }
 
@@ -139,7 +133,6 @@ public class ModelImpl implements Model, ManualModeListener{
     public void setUpdateTimesInternet(double alarmTime, double notAlarmTime) {
         this.alarmPeriodUpdate = alarmTime;
         this.notAlarmPeriodUpdate = notAlarmTime;
-        //System.out.println(alarmPeriodUpdate);
     }
     
     private boolean areUpdateTimesSetted() {

@@ -1,4 +1,4 @@
-package controller;
+package model;
 
 public class ArduinoPoint {
     private int state;
@@ -9,5 +9,17 @@ public class ArduinoPoint {
         this.state = state;
         this.damOpening = damOpening;
         this.distance = distance;
+    }
+
+    public int getState() {
+        return state;
+    }
+
+    public int getDamOpening() {
+        return damOpening;
+    }
+
+    public float getDistance() {
+        return distance;
     }
 }

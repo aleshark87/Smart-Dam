@@ -1,8 +1,12 @@
-package controller;
+package serialComm;
 
 import com.google.gson.Gson;
 
-import io.vertx.core.Vertx;
+import controller.AbstractServiceVerticle;
+import controller.MainController;
+import controller.ManualModeListener;
+import controller.MsgEventListener;
+import model.ArduinoPoint;
 
 public class SerialVerticle extends AbstractServiceVerticle implements MsgEventListener{
 

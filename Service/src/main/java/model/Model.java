@@ -2,12 +2,14 @@ package model;
 
 import java.util.List;
 
-import controller.DataPoint;
-
+/**
+ * Model is where the Dam Service stores the information.
+ * It allerts also the Serial Verticle when communication need to be done.
+ * @author aless
+ *
+ */
 public interface Model {
 
-    
-    /* Metodi e costanti */
     
     public enum STATE{
         NORMAL, PRE_ALARM, ALARM
