@@ -6,6 +6,10 @@
 #include <async_fsm.h>
 #include <string.h>
 
+/* 
+  Primitive for Communication Services
+*/
+
 #define S_NORMAL 0
 #define S_PREALARM 1
 #define S_ALARM 2

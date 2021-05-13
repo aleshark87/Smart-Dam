@@ -3,6 +3,10 @@
 
 #include <MsgService.h>
 
+/*
+    Service for SerialCommunication
+*/
+
 class MsgSerialService : public MsgService {
 public:
     float getDistance();

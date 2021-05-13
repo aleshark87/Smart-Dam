@@ -4,6 +4,10 @@
 #include <SoftwareSerial.h>
 #include <MsgService.h>
 
+/* 
+    Service for Bluetooth Communication
+*/
+
 class MsgBtService: public MsgService {
 public:
     void init();

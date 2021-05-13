@@ -5,24 +5,14 @@ String content;
 StaticJsonDocument <128>doc;
 MsgSerialService msgSerialService;
 float distance;
-bool test;
 
 void MsgSerialService::init(){
-  test = false;
   Serial.begin(9600);
   content.reserve(256);
   content = "";
 }
 
 void MsgSerialService::sendMsg(const String msg){
-  if(test == false){
-    digitalWrite(12, true);
-    test = true;
-  }
-  else{
-    digitalWrite(12, false);
-    test = false;
-  }
   Serial.println(msg);
   Serial.flush();
 }
@@ -50,15 +40,12 @@ Event* MsgSerialService::eventGenerator(const String msg){
     case S_NORMAL:
       ev = new NormalEvent();
       return ev;
-      //case break;
     case S_PREALARM:
       ev = new PreAlarmEvent(0, distance);
       return ev;
-      //break;
     case S_ALARM:
       ev = new AlarmEvent(damOpening);
       return ev;
-      //break;
   }
 
   return NULL;

@@ -4,6 +4,10 @@
 #include "ServoMotor.h"
 #include "Led.h"
 
+/*
+  AsyncFSM for all except for led blinking
+*/
+
 class MyAsyncFSM : public AsyncFSM {
   public:
     MyAsyncFSM(Led* led, ServoMotor* servo);  

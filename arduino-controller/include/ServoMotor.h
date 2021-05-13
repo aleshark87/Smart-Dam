@@ -1,7 +1,13 @@
 #ifndef __SERVOMOTOR__
 #define __SERVOMOTOR__
+#define STARTPULSE 1350
+#define ENDPULSE 2250
 
 #include <ServoTimer2.h>
+
+/*
+    Primitive for Servo
+*/
 
 class ServoMotor {
 public:
