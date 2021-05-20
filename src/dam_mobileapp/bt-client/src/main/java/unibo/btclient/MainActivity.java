@@ -84,7 +84,12 @@ public class MainActivity extends AppCompatActivity {
                 if(state == 2) {
                     setUpSeekBarAndToast();
                     //send message via bt
-                    btChannel.sendMessage("MANUAL");
+                    if(blockSeekBar == true) {
+                        btChannel.sendMessage("NOMANUAL");
+                    }
+                    else{
+                        btChannel.sendMessage("MANUAL");
+                    }
                 }
                 else{
                     errorToast();

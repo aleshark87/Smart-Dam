@@ -20,8 +20,8 @@ char* pwd = "***REMOVED***";
 /* service IP address */ 
 char* address = "http://192.168.1.151:8080";
 
-volatile bool connStatus = false;
-volatile bool prevConnStatus = false;
+bool connStatus = false;
+bool prevConnStatus = false;
 float distance;
 volatile int state;
 volatile bool determineState = false;
