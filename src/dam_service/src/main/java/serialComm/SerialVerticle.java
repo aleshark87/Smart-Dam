@@ -10,7 +10,7 @@ import model.ArduinoPoint;
 
 public class SerialVerticle extends AbstractServiceVerticle implements MsgEventListener{
 
-    private static final String serialPort = "/dev/ttyACM0";
+    private static final String serialPort = "/dev/ttyACM1";
     private static final int baudRate = 9600;
     private CommChannel serialCommChannel;
     private ManualModeListener manualListener;

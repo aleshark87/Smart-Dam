@@ -20,10 +20,14 @@ char* pwd = "***REMOVED***";
 /* service IP address */ 
 char* address = "http://192.168.1.151:8080";
 
-volatile bool connStatus;
-volatile bool prevConnStatus;
-volatile float distance;
+volatile bool connStatus = false;
+volatile bool prevConnStatus = false;
+float distance;
 volatile int state;
+volatile bool determineState = false;
+volatile bool msgAlarm = false;
+volatile bool msgPreAlarm = false;
+volatile bool msgNormal = false;
 
 Sonar *sonar;
 Led *led;
@@ -32,8 +36,8 @@ Ticker sendMsgAlarm;
 Ticker sendMsgNotAlarm;
 StaticJsonDocument<128> doc;
 const float detPeriod = 0.5;//seconds
-const float sendMsgAlarmPeriod = 1.5;
-const float sendMsgNotAlarmPeriod = 3.0;
+const float sendMsgAlarmPeriod = 1.0;
+const float sendMsgNotAlarmPeriod = 2.0;
 
 int sendTimes(String address){
   HTTPClient http;    
@@ -88,12 +92,10 @@ int sendState(String address){
    String msg;
    doc["type"] = "state";
    doc["state"] = state;
-   //Serial.println("sending state");
    serializeJson(doc, msg);
    doc.clear();
    int retCode = http.POST(msg);   
    http.end();
-   //Serial.println(retCode);
    if(retCode == -1){
      setConnStatus(false);
    }
@@ -105,36 +107,40 @@ int sendState(String address){
 
 void msgNotAlarmINT() {
   if(state == S_PREALARM){
-    sendData(address);
+    msgPreAlarm = true;
   } else {
     if(state == S_NORMAL){
-      sendState(address);
+      msgNormal = true;
     }
   }
 }
 
 void msgAlarmINT(){
   if(state == S_ALARM){
-    sendData(address);
+    msgAlarm = true;
   }
 }
 
 void stateINT(){
-	distance = sonar->getValue();
-	if(distance < DIST1 && distance > DIST2){
-		state = S_PREALARM;
-	}
-	else{
-		if(distance <= DIST2){
-			state = S_ALARM;
-		}
-		else{
-			state = S_NORMAL;
-		}
-	}
+  determineState = true;
 }
 
-void setup() { 
+void sonarState(){
+  distance = sonar->getValue();
+  if(distance < DIST1 && distance > DIST2){
+    state = S_PREALARM;
+  }
+  else{
+    if(distance <= DIST2){
+      state = S_ALARM;
+    }
+    else{
+      state = S_NORMAL;
+    }
+  }
+}
+
+void setup() {
   Serial.begin(9600);                            
   WiFi.begin(ssidName, pwd);
   Serial.print("Connecting...");
@@ -159,26 +165,36 @@ void setup() {
    
 void loop() { 
  if (WiFi.status()== WL_CONNECTED){ 
-
+  if(determineState){ 
+    sonarState();
+    determineState = false;
+  }
 	switch(state){
 		case S_NORMAL:
     {
       led->off();
-			//Serial.println("Stato normale");
+      if(msgNormal){
+        sendState(address);
+        msgNormal = false;
+      }
 			break;
     }
 		case S_PREALARM:
     {
       led->pulse();
-			//Serial.println("Stato preallarme");
-
+      if(msgPreAlarm){
+        sendData(address);
+        msgPreAlarm = false;
+      }
 			break;
     }
 		case S_ALARM:
     {
       led->on();
-			//Serial.println("Stato allarme");
-      
+      if(msgAlarm){
+        sendData(address);
+        msgAlarm = false;
+      }
 			break;
     }
 	}
