@@ -1,1 +1,87 @@
-<mxfile host="app.diagrams.net" modified="2021-05-19T12:41:30.660Z" agent="5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.212 Safari/537.36" etag="4e9MysrOzi2jEf2O2E4B" version="14.6.13" type="github"><diagram id="vNKpkHM8Gi1mxSYy-WRn" name="Page-1">3VpNk5s4EP01Pm4KJGA8x/HMJHtJNlnX1ianlAIaoCIQJeSv/PqIQeJDksvYg43jKh+sRhLi9VP3U8MMPmbbDwwVyUcaYTIDTrSdwacZAK4HwKz6OdGuttwFbm2IWRrJTq1hmf7C0uhI6yqNcNnryCklPC36xpDmOQ55z4YYo5t+txdK+nctUIwNwzJExLT+n0Y8qa1z32ntf+M0TtSdXUdeyZDqLA1lgiK66Zjg8ww+Mkp5/S/bPmJSgadwqce933O1WRjDOR8yIIHxd//Tj2j34b3z5Xn95av3L/5LzrJGZCUf+CPKV4jIJfOdwkHMJSAXjcUmSTleFiisrmyE14Ut4RkRLVf8RWVR++El3WJx64W8A2Ycb/cu3W0AEUzCNMOc7UQXOQDcSQwliVyF6abjEmlKOt5QNiRJEDcztziJPxKqI2ADBmyf6DUC5wdXBhw0gHtC2T8Fzq8RPc85jF6z37vwNcbR8fMsxGPZ1QF33wcO+BPTzjdgeyiK/4oIcXxdyAVeHzl4NzFy92aCKOMFX2K2TkMTPEZXeVSB8YrQAQBHwAvqW9SyQ4EFr+BceKkFdAAzGZZHD5U0Ea2QoLJMwz4u4tnZ7qtoOO981fxWNVXjadtr7VRrm/LOMNH6pmYU/9tBVUONqReHI0MFaR4QD0BXLMSHqcIRizE/lANMj3Zc5ls8pmwME8TTdX+5NjfKO3ymqXiQVkpoocn1NCbUjylHdeWUNhHUduq9Nk8NgzHPK6map34Dz0zlpjJpGRuMExuM9zlWckZ/4kdKKBOWnOZVwHtJCdFMiKRxXhFV0AEL+6LarqnQxw/yQpZGEdkXLdtw4IyUWdw+6pbw6FnIA8623c2EvOC1lrlpPzTbUWP/ZH4wM/zxYVeGT7cTPNtQag+fp4bqCcIumDLsesC37ttjo27g2Pf/gagr/I52nW5F1aHcv1z9Nl7vaC3+1BOOG9EDSyhRx8qbDia+a0V7umAyNzwh8BeSN0XkWoSvO+9jBudTK19gKhJ1NnUE+YDzmeEHglim2rJxq6yGGquhJUe6wSV5rXLiW5Lk0MQ1VaLRD4Sec//OPy3X6FUMy1RnFvnALJfJdEAjSwhKaPZjVV4k/OjYTF6nAKYA5GxlgnQz4cXXE8DUEhzcvT267JPTzbWjKh+NWj935QNMWtLwNCYYpYihAc+HGqXgMHU9WrgzddfxDBL+XMrulPGExjRH5Lm1LsIVWzdCrSHO4ILZH3TimzQR6xUCVxeegwtteonXvTArzRL4CyLlLacWPQ5MfSCD+15T1zrIeTU5dq8Mfp0zAnCuRlXgWCQ/vKQsgqbktyBnVUqXBC4Irg44U3ofn4tOeB/TpBe3l1zaXLNPAR2X90bMRuqrnIOvfSZNR3q9xD1VJAEtOBovkM6cjqBZJrwsMZ3jiDki08BQpoEpmebrHz/MT6w/6N8CADis+vDWYvdFqt1wjNPiCS9sxqTjpKc+nWbeqfpap5k3mr4Wzfbzxrp7+5EofP4N</diagram></mxfile>
+<mxfile host="app.diagrams.net" modified="2021-05-21T10:14:33.642Z" agent="5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.212 Safari/537.36" etag="y9Lh8hXW1pAYy-1VK4ZK" version="14.6.13" type="github">
+  <diagram id="vNKpkHM8Gi1mxSYy-WRn" name="Page-1">
+    <mxGraphModel dx="1414" dy="748" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="850" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="x4o01AEi33vLOYH5iEUo-3" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="x4o01AEi33vLOYH5iEUo-1" target="x4o01AEi33vLOYH5iEUo-2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="x4o01AEi33vLOYH5iEUo-1" value="NoManual" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
+          <mxGeometry x="150" y="160" width="80" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="x4o01AEi33vLOYH5iEUo-2" value="Manual" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
+          <mxGeometry x="640" y="160" width="80" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="x4o01AEi33vLOYH5iEUo-4" value="msg MANUAL from DM" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="370" y="180" width="130" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="x4o01AEi33vLOYH5iEUo-5" value="" style="endArrow=classic;html=1;" edge="1" parent="1" target="x4o01AEi33vLOYH5iEUo-6">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="580" y="200" as="sourcePoint" />
+            <mxPoint x="450" y="340" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="x4o01AEi33vLOYH5iEUo-6" value="Send DS Manual&lt;br&gt;Led Switch On" style="whiteSpace=wrap;html=1;aspect=fixed;align=center;" vertex="1" parent="1">
+          <mxGeometry x="530" y="220" width="100" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="x4o01AEi33vLOYH5iEUo-13" value="msg DAM_OPEN from DM / dam_open" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="720" y="180" width="220" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="x4o01AEi33vLOYH5iEUo-14" value="" style="endArrow=classic;html=1;edgeStyle=orthogonalEdgeStyle;curved=1;entryX=0.963;entryY=0.8;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" target="x4o01AEi33vLOYH5iEUo-2">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="720" y="200" as="sourcePoint" />
+            <mxPoint x="870" y="240" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="880" y="200" />
+              <mxPoint x="880" y="240" />
+              <mxPoint x="717" y="240" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="x4o01AEi33vLOYH5iEUo-15" value="msg N-PA-A from DS / sendBtUpdate(DM)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="650" y="80" width="140" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="x4o01AEi33vLOYH5iEUo-17" value="" style="endArrow=classic;html=1;edgeStyle=orthogonalEdgeStyle;curved=1;entryX=0;entryY=0;entryDx=0;entryDy=0;" edge="1" parent="1" target="x4o01AEi33vLOYH5iEUo-2">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="680" y="160" as="sourcePoint" />
+            <mxPoint x="780" y="50" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="790" y="160" />
+              <mxPoint x="790" y="110" />
+              <mxPoint x="652" y="110" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="x4o01AEi33vLOYH5iEUo-19" value="" style="endArrow=classic;html=1;edgeStyle=orthogonalEdgeStyle;curved=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="x4o01AEi33vLOYH5iEUo-2" target="x4o01AEi33vLOYH5iEUo-1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="690" y="360" as="sourcePoint" />
+            <mxPoint x="500" y="330" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="690" y="240" />
+              <mxPoint x="690" y="400" />
+              <mxPoint x="380" y="400" />
+              <mxPoint x="380" y="330" />
+              <mxPoint x="190" y="330" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="x4o01AEi33vLOYH5iEUo-20" value="msg NOMANUAL from DM" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="460" y="370" width="160" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="x4o01AEi33vLOYH5iEUo-22" value="" style="endArrow=classic;html=1;" edge="1" parent="1" target="x4o01AEi33vLOYH5iEUo-23">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="200" y="290" as="sourcePoint" />
+            <mxPoint x="450" y="260" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="200" y="330" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="x4o01AEi33vLOYH5iEUo-23" value="Send DS NoManual&lt;br&gt;Led Switch Off" style="whiteSpace=wrap;html=1;aspect=fixed;" vertex="1" parent="1">
+          <mxGeometry x="160" y="370" width="110" height="110" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
