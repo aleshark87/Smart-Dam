@@ -17,24 +17,28 @@ MyAsyncFSM::MyAsyncFSM(Led* led, ServoMotor* servo){
 }
   
 void MyAsyncFSM::handleEvent(Event* ev) {
-    int eventType = ev->getType();
-    computeStateSetLed(eventType);
-
-    if(eventType == MANUAL && manualMode == false){
+    if(ev->getType() == MANUAL && manualMode == false){
         msgSerialService.sendMsg("MANUAL");
         timerLed.setBlinking(false);
         led->switchOn();
         manualMode = true;
     }
     else {
-        if(eventType == NOMANUAL && manualMode == true){
+        if(ev->getType() == NOMANUAL && manualMode == true){
             msgSerialService.sendMsg("NOMANUAL");
             switchingManualMode = true;
             led->switchOff();
             manualMode = false;
         }
     }
-    
+    sendMsgMoveDam(ev);
+    if(switchingManualMode) { switchingManualMode = false; }
+
+}
+
+void MyAsyncFSM::sendMsgMoveDam(Event *ev){
+    int eventType = ev->getType();
+    computeStateSetLed(eventType);
     if(manualMode == false && switchingManualMode == false){
         damOpening = ev->getMessage();
         servo->setPosition(damOpening);
@@ -52,8 +56,6 @@ void MyAsyncFSM::handleEvent(Event* ev) {
             servo->setPosition(number);
         }
     }
-    if(switchingManualMode) { switchingManualMode = false; }
-
 }
 
 void MyAsyncFSM::computeStateSetLed(int eventType){
