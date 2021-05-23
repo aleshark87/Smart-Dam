@@ -21,7 +21,7 @@ class MyAsyncFSM : public AsyncFSM {
     ServoMotor* servo;
     void sendBtUpdate(const int eventType, const int damOpening, const float distance);
     void computeStateSetLed(int eventType);
-    void sendMsgMoveDam(Event* ev);
+    void sendMsgMoveDamComputeLed(Event* ev);
 };
     
 #endif

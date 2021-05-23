@@ -19,30 +19,26 @@ MyAsyncFSM::MyAsyncFSM(Led* led, ServoMotor* servo){
 void MyAsyncFSM::handleEvent(Event* ev) {
     if(ev->getType() == MANUAL && manualMode == false){
         msgSerialService.sendMsg("MANUAL");
-        timerLed.setBlinking(false);
-        led->switchOn();
         manualMode = true;
     }
     else {
         if(ev->getType() == NOMANUAL && manualMode == true){
             msgSerialService.sendMsg("NOMANUAL");
             switchingManualMode = true;
-            led->switchOff();
             manualMode = false;
         }
     }
-    sendMsgMoveDam(ev);
+    sendMsgMoveDamComputeLed(ev);
     if(switchingManualMode) { switchingManualMode = false; }
 
 }
 
-void MyAsyncFSM::sendMsgMoveDam(Event *ev){
+void MyAsyncFSM::sendMsgMoveDamComputeLed(Event *ev){
     int eventType = ev->getType();
     computeStateSetLed(eventType);
     if(manualMode == false && switchingManualMode == false){
         damOpening = ev->getMessage();
         servo->setPosition(damOpening);
-        
         sendBtUpdate(eventType, damOpening, msgSerialService.getDistance());
     }
     else{
@@ -71,6 +67,13 @@ void MyAsyncFSM::computeStateSetLed(int eventType){
         if(!timerLed.getBlinkState() && manualMode == false){
             timerLed.setBlinking(true);
         }
+    }
+    if(eventType == MANUAL && manualMode == true){
+        led->switchOn();
+        timerLed.setBlinking(false);
+    }
+    if(eventType == NOMANUAL && manualMode == false){
+        led->switchOff();
     }
 }
 
