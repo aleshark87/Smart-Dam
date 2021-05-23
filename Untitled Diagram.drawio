@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2021-05-23T13:43:01.660Z" agent="5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.212 Safari/537.36" etag="TOi5iNoKJUMXOKfQsVUG" version="14.7.0" type="github">
+<mxfile host="app.diagrams.net" modified="2021-05-23T14:27:12.603Z" agent="5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.212 Safari/537.36" etag="1GEsHJrE9p3IZCHemV42" version="14.7.0" type="github">
   <diagram id="vNKpkHM8Gi1mxSYy-WRn" name="Page-1">
     <mxGraphModel dx="1414" dy="748" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="850" math="0" shadow="0">
       <root>
@@ -20,8 +20,8 @@
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="uBDw1ssE5foOojDdDk-U-4" value="event.type==&quot;NOMANUAL&quot; / MsgSerial, Led-&amp;gt;off, sendMsgMoveDam()" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
-          <mxGeometry x="280" y="130" width="490" height="20" as="geometry" />
+        <mxCell id="uBDw1ssE5foOojDdDk-U-4" value="Event[event.type==&quot;NOMANUAL&quot;] / MsgSerial,&amp;nbsp;sendMsgMoveDamComputeLed()" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="277" y="130" width="490" height="20" as="geometry" />
         </mxCell>
         <mxCell id="uBDw1ssE5foOojDdDk-U-5" value="" style="endArrow=classic;html=1;edgeStyle=orthogonalEdgeStyle;curved=1;exitX=1;exitY=0;exitDx=0;exitDy=0;" edge="1" parent="1" source="uBDw1ssE5foOojDdDk-U-2" target="uBDw1ssE5foOojDdDk-U-2">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
@@ -36,8 +36,8 @@
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="uBDw1ssE5foOojDdDk-U-6" value="event.type==&quot;NOMANUAL&quot; / sendMsgMoveDam()" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
-          <mxGeometry x="750" y="120" width="170" height="20" as="geometry" />
+        <mxCell id="uBDw1ssE5foOojDdDk-U-6" value="Event[event.type==&quot;NOMANUAL&quot;] / sendMsgMoveDamComputeLed()" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="750" y="120" width="200" height="20" as="geometry" />
         </mxCell>
         <mxCell id="uBDw1ssE5foOojDdDk-U-9" value="" style="endArrow=classic;html=1;edgeStyle=orthogonalEdgeStyle;curved=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="1" source="uBDw1ssE5foOojDdDk-U-2">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
@@ -49,8 +49,8 @@
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="uBDw1ssE5foOojDdDk-U-10" value="event.type==&quot;MANUAL&quot; / MsgSerial, Led-&amp;gt;on, sendMsgMoveDam()" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
-          <mxGeometry x="255" y="330" width="540" height="20" as="geometry" />
+        <mxCell id="uBDw1ssE5foOojDdDk-U-10" value="Event[event.type==&quot;MANUAL&quot;] / MsgSerial,&amp;nbsp;sendMsgMoveDamComputeLed()" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="252" y="330" width="540" height="20" as="geometry" />
         </mxCell>
         <mxCell id="uBDw1ssE5foOojDdDk-U-14" value="" style="endArrow=classic;html=1;edgeStyle=orthogonalEdgeStyle;curved=1;exitX=0;exitY=0;exitDx=0;exitDy=0;entryX=0;entryY=1;entryDx=0;entryDy=0;" edge="1" parent="1" source="uBDw1ssE5foOojDdDk-U-1" target="uBDw1ssE5foOojDdDk-U-1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
@@ -64,8 +64,8 @@
             </Array>
           </mxGeometry>
         </mxCell>
-        <mxCell id="uBDw1ssE5foOojDdDk-U-16" value="event.type==&quot;MANUAL&quot; / sendMsgMoveDam()" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
-          <mxGeometry x="70" y="120" width="170" height="20" as="geometry" />
+        <mxCell id="uBDw1ssE5foOojDdDk-U-16" value="Event[event.type==&quot;MANUAL&quot;] /&amp;nbsp;sendMsgMoveDamComputeLed()" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="70" y="120" width="150" height="20" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
