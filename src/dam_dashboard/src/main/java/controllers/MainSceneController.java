@@ -107,7 +107,6 @@ public class MainSceneController {
                 futureData.onComplete(req -> {
                     if(req.succeeded()) {
                         List<Data> results = req.result();
-                        System.out.println(results.size());
                         Platform.runLater(new Runnable() {
 
                             @Override

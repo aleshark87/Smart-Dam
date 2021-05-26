@@ -96,23 +96,12 @@
         android:layout_height="wrap_content"
         android:text="MANUAL MODE"
         android:layout_marginBottom="20dp"
-        app:layout_constraintBottom_toTopOf="@id/debugText"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/seekBar" />
 
-    <TextView
-        style="@style/TextAppearance.AppCompat.Medium"
-        android:id="@+id/debugText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="ciao"
-        android:gravity="center"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/manualButton"
-        />
+
 
 
 </android.support.constraint.ConstraintLayout>

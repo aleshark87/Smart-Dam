@@ -71,7 +71,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if(blockSeekBar == false) {
-                    ((TextView) findViewById(R.id.debugText)).setText("sending " + bar.getProgress());
                     btChannel.sendMessage(Integer.toString(bar.getProgress()));
                 }
                 return blockSeekBar;
