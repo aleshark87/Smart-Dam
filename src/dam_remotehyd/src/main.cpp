@@ -14,9 +14,9 @@
 #include <Led.h>
 
 /* wifi network name */
-char* ssidName = "FASTWEB-B482E1";
+char* ssidName = "ssidName";
 /* WPA2 PSK password */
-char* pwd = "***REMOVED***";
+char* pwd = "wifiPwd";
 /* service IP address */ 
 char* address = "http://192.168.1.151:8080";
 
